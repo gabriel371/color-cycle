@@ -5,15 +5,18 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
-  bool _running = false;
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  bool _running = true;
 
   AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
+    _start();
+  }
+
+  void _start() {
     _controller = AnimationController(
       duration: Duration(milliseconds: 1000),
       vsync: this,
@@ -39,7 +42,14 @@ class _HomePageState extends State<HomePage>
       weight: 1,
       tween: ColorTween(
         begin: Colors.blue,
-        end: Colors.pink,
+        end: Colors.yellow,
+      ),
+    ),
+    TweenSequenceItem(
+      weight: 1,
+      tween: ColorTween(
+        begin: Colors.yellow,
+        end: Colors.orange,
       ),
     ),
   ]);
@@ -91,6 +101,7 @@ class _HomePageState extends State<HomePage>
                     onPressed: () {
                       setState(() {
                         _running = !_running;
+                        _start();
                       });
                     },
                   )
@@ -118,6 +129,7 @@ class _HomePageState extends State<HomePage>
                     onPressed: () {
                       setState(() {
                         _running = !_running;
+                        _controller.stop();
                       });
                     },
                   ),
